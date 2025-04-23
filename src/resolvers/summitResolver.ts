@@ -2,7 +2,7 @@ import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { Summit } from "../entities/Summit";
 import { summits } from "../data/summits";
 import { ranges } from "../data/ranges";
-import { SummitInput } from "../inputs/SummitInput";
+import { AddSummitInput } from "../inputs/SummitInput";
 
 @Resolver(() => Summit)
 export class SummitResolver {
@@ -11,8 +11,13 @@ export class SummitResolver {
     return summits;
   }
 
+  @Query(() => [Summit])
+  getSummitsByRangeId(@Arg("rangeId") rangeId: number): Summit[] {
+    return summits.filter((summit) => summit.range.id === rangeId);
+  }
+
   @Mutation(() => Summit)
-  addSummit(@Arg("data") data: SummitInput): Summit {
+  addSummit(@Arg("data") data: AddSummitInput): Summit {
     const range = ranges.find((range) => range.id === data.rangeId);
 
     if (!range) {

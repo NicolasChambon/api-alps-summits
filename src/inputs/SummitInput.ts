@@ -1,7 +1,7 @@
 import { InputType, Field, Int } from "type-graphql";
 
 @InputType()
-export class SummitInput {
+export class AddSummitInput {
   @Field()
   name!: string;
 
